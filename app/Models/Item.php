@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Menu extends Model
+class Item extends Model
 {
     use HasFactory, SoftDeletes;
 
     protected $fillable = [
-        'menu_name',
-        'slug',
-        'image_url',
+        'item_name',
+        'item_description',
+        'unit',
     ];
 
-    public function items(): BelongsToMany
+    public function menus(): BelongsToMany
     {
-        return $this->belongsToMany(Item::class);
+        return $this->belongsToMany(Menu::class);
     }
 }
