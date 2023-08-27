@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\MenuController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,4 +23,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // DEFINE RESOURCES CONTROLLERS
 Route::resources([
     'clients' => ClientController::class,
+    'menus' => MenuController::class,
 ]);
