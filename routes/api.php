@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CashMouvementController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MenuController;
@@ -30,4 +31,5 @@ Route::resources([
     'items' => ItemController::class,
     'tables' => TableController::class,
     'orders' => OrderController::class,
+    'cashMouvements' => CashMouvementController::class,
 ]);
