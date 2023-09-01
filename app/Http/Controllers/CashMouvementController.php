@@ -13,7 +13,7 @@ class CashMouvementController extends Controller
     public function index()
     {
         $cash_mouvements = cashMouvement::all();
-        response()->json([
+        return response()->json([
             'result' => $cash_mouvements,
             'msg' => __('success'),
             'status' => 200,
@@ -64,7 +64,7 @@ class CashMouvementController extends Controller
      */
     public function show(cashMouvement $cashMouvement)
     {
-        response()->json([
+        return response()->json([
             'result' => $cashMouvement,
             'msg' => __('success'),
             'status' => 200,

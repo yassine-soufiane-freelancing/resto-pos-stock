@@ -15,7 +15,7 @@ class ItemController extends Controller
     public function index()
     {
         $items = Item::all();
-        response()->json([
+        return response()->json([
             'result' => $items,
             'msg' => __('success'),
             'status' => 200,
@@ -67,7 +67,7 @@ class ItemController extends Controller
      */
     public function show(Item $item)
     {
-        response()->json([
+        return response()->json([
             'result' => $item,
             'msg' => __('success'),
             'status' => 200,
