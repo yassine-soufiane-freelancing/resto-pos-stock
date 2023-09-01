@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class cashMouvement extends Model
+class CashMouvement extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -18,7 +18,7 @@ class cashMouvement extends Model
         'image_url',
     ];
 
-    public function orders(): BelongsTo
+    public function cashier(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
