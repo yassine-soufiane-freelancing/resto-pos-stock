@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
-class cashMouvementRequest extends FormRequest
+class CashMouvementRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

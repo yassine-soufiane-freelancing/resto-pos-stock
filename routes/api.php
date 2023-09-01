@@ -33,5 +33,5 @@ Route::resources([
     'tables' => TableController::class,
     'orders' => OrderController::class,
     'cashMouvements' => CashMouvementController::class,
-    'cashMouvements' => CashRegisterController::class,
+    'cashRegisters' => CashRegisterController::class,
 ]);
