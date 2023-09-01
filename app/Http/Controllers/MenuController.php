@@ -14,7 +14,7 @@ class MenuController extends Controller
     public function index()
     {
         $menus = Menu::all();
-        response()->json([
+        return response()->json([
             'result' => $menus,
             'msg' => __('success'),
             'status' => 200,
@@ -65,7 +65,7 @@ class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
-        response()->json([
+        return response()->json([
             'result' => $menu,
             'msg' => __('success'),
             'status' => 200,
