@@ -15,7 +15,7 @@ class cashRegister extends Model
         'register_type',
     ];
 
-    public function orders(): BelongsTo
+    public function cashier(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }

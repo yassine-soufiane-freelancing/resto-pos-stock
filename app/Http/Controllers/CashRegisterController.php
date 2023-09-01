@@ -6,6 +6,7 @@ use App\Http\Requests\CashRegisterRequest;
 use App\Models\CashRegister;
 use App\Models\CashUnit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CashRegisterController extends Controller
 {
@@ -36,9 +37,10 @@ class CashRegisterController extends Controller
     public function store(CashRegisterRequest $request)
     {
         try {
-            $cashRegister = CashRegister::create($request->all());
+            $cashRegister = new CashRegister($request->all());
+            $cashRegister->cashier()->associate(Auth::user());
             $cash_unit = new CashUnit($request->cash_units);
-            if ($cashRegister) {
+            if ($cashRegister->save()) {
                 $cash_unit->cash_register()->associate($cashRegister);
                 if ($cash_unit->save()) {
                     $result = $cashRegister;
