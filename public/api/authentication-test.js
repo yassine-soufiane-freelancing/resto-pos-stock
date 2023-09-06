@@ -3,14 +3,18 @@ $(document).ready(function () {
         e.preventDefault();
         register();
     });
+    $("#btn-login").click(function (e) { 
+        e.preventDefault();
+        login();
+    });
     $("#btn-logout").click(function (e) { 
         e.preventDefault();
         logout();
     });
 });
 const register = () => {
-    let name = "nouhaila 2";
-    let email = "nouhaila.elkechchad2@gmail.com";
+    let name = "XXXX";
+    let email = "xx.xxx@gmail.com";
     let pwd = "soufiane@soufiane";
     let pwdConfirm = "soufiane@soufiane";
     let dataToSend = {
@@ -24,13 +28,13 @@ const register = () => {
     });
 }
 const login = () => {
-    let email = "nouhaila.elkechchad2@gmail.com";
+    let email = "xx.xxx@gmail.com";
     let pwd = "soufiane@soufiane";
     let dataToSend = {
         "email" : email,
         "password" : pwd,
     };
-    addData('register', dataToSend, (data) => {
+    addData('login', dataToSend, (data) => {
         console.log(data);
     });
 }

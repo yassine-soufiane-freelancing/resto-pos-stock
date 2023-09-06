@@ -21,17 +21,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->group(function () {
+    // DEFINE CUSTOM ROUTES
+    // DEFINE RESOURCES CONTROLLERS
+    Route::resources([
+        'clients' => ClientController::class,
+        'menus' => MenuController::class,
+        'items' => ItemController::class,
+        'tables' => TableController::class,
+        'orders' => OrderController::class,
+        'cashMouvements' => CashMouvementController::class,
+        'cashRegisters' => CashRegisterController::class,
+    ]);
 });
-// DEFINE CUSTOM ROUTES
-// DEFINE RESOURCES CONTROLLERS
-Route::resources([
-    'clients' => ClientController::class,
-    'menus' => MenuController::class,
-    'items' => ItemController::class,
-    'tables' => TableController::class,
-    'orders' => OrderController::class,
-    'cashMouvements' => CashMouvementController::class,
-    'cashRegisters' => CashRegisterController::class,
-]);
