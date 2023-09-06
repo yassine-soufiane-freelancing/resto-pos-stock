@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class cashRegister extends Model
+class CashRegister extends Model
 {
     use HasFactory, softDeletes;
 
