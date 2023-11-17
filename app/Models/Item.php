@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Item extends Model
@@ -20,5 +21,9 @@ class Item extends Model
     public function menus(): BelongsToMany
     {
         return $this->belongsToMany(Menu::class);
+    }
+    public function item_variations(): HasMany
+    {
+        return $this->hasMany(ItemVariation::class);
     }
 }
