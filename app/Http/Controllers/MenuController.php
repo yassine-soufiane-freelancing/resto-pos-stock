@@ -83,7 +83,7 @@ class MenuController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(MenuController $request, Menu $menu)
+    public function update(MenuRequest $request, Menu $menu)
     {
         try {
             $request->whenHas('image_url', function ($imageInp) use (&$request) {

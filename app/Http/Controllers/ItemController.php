@@ -36,13 +36,11 @@ class ItemController extends Controller
     public function store(ItemRequest $request)
     {
         try {
-            $item = Item::create($request->all());
-            if ($item) {
-                $request->whenFilled('menu', function (int $menu_id) use ($item) {
-                    $menu = Menu::find($menu_id);
-                    if ($menu) {
-                        $item->menus()->attach($menu_id);
-                    }
+            $item = new Item($request->all());
+            $menu = Menu::find($request->menu);
+            if ($item->menu()->associate($menu) && $item->save()) {
+                $request->whenFilled('item_variations', function (array $item_variations) use ($item) {
+                    $item->item_variations()->createMany($item_variations);
                 });
                 $result = $item;
                 $msg = __('success.add');
@@ -85,15 +83,13 @@ class ItemController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Item $item)
+    public function update(ItemRequest $request, Item $item)
     {
         try {
-            if ($item->update($request->all())) {
-                $request->whenFilled('menu', function (int $menu_id) use ($item) {
-                    $menu = Menu::find($menu_id);
-                    if ($menu) {
-                        $item->menus()->attach($menu_id);
-                    }
+            $menu = Menu::find($request->menu);
+            if ($item->menu()->associate($menu) && $item->update($request->all())) {
+                $request->whenFilled('item_variations', function (array $item_variations) use ($item) {
+                    $item->item_variations()->createMany($item_variations);
                 });
                 $result = $item;
                 $msg = __('success.update');
