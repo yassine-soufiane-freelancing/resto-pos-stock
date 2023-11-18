@@ -11,6 +11,7 @@ use App\Models\Order;
 use App\Models\Table;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -42,6 +43,7 @@ class OrderController extends Controller
     {
         try {
             $order = new Order($request->all());
+            $order->cashier()->associate(Auth::user());
             $request->whenFilled('client', function (int $client_id) use ($order) {
                 $client = Client::find($client_id);
                 if ($client) {

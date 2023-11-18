@@ -20,6 +20,10 @@ class Order extends Model
         'order_note',
     ];
 
+    public function cashier(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
     public function client(): BelongsTo
     {
         return $this->belongsTo(Client::class);
