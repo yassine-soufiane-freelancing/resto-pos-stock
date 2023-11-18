@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -15,14 +16,13 @@ class Order extends Model
     protected $fillable = [
         'order_status',
         'is_paid',
-        'is_take_away',
         'payment_type',
         'order_note',
     ];
 
-    public function clients(): BelongsToMany
+    public function client(): BelongsTo
     {
-        return $this->belongsToMany(Client::class);
+        return $this->belongsTo(Client::class);
     }
     public function tables(): BelongsToMany
     {

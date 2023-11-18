@@ -43,7 +43,7 @@ class ItemRequest extends FormRequest
             ],
             'item_variations' => [
                 'sometimes',
-                'array:item_size,item_price',
+                'array',
             ],
             'item_variations.*.item_size' => [
                 'required_with:item_variations',
