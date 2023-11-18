@@ -2,9 +2,12 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\OrderStatus;
+use App\Models\ItemVariation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Spatie\Enum\Laravel\Rules\EnumRule;
 
 class OrderRequest extends FormRequest
 {
@@ -26,13 +29,9 @@ class OrderRequest extends FormRequest
         $rules = [
             'order_status' => [
                 'required',
-                'string',
+                new EnumRule(OrderStatus::class),
             ],
             'is_paid' => [
-                'sometimes',
-                'boolean',
-            ],
-            'is_take_away' => [
                 'sometimes',
                 'boolean',
             ],
@@ -44,19 +43,56 @@ class OrderRequest extends FormRequest
                 'sometimes',
                 'string',
             ],
+            'order_discount' => [
+                'sometimes',
+                'numeric',
+            ],
+            'item_variations' => [
+                'required',
+                'array',
+            ],
+            'item_variations.*' => [
+                Rule::in(ItemVariation::all()->modelKeys()),
+            ],
+            'item_variations.*.item_quantity' => [
+                'integer',
+            ],
+            'item_variations.*.item_note' => [
+                'string',
+            ],
             'client' => [
                 'sometimes',
                 'integer',
                 'exists:clients,id',
             ],
             'table' => [
-                'sometimes',
+                'required_without_all:import,delivery',
                 'integer',
                 'exists:tables,id',
             ],
             'nb_seats' => [
                 'sometimes',
                 'integer',
+            ],
+            'import' => [
+                'required_without_all:table,delivery',
+                'accepted',
+            ],
+            'delivery' => [
+                'required_without_all:table,import',
+                'accepted',
+            ],
+            'delivery_man' => [
+                'required_with_all:delivery',
+                'integer',
+            ],
+            'delivery_man.name' => [
+                'required',
+                'string',
+            ],
+            'delivery_man.phone' => [
+                'required',
+                'string',
             ],
         ];
         return $rules;
