@@ -14,6 +14,9 @@ class DeliveredOrder extends Model
     protected $fillable = [
         'delivery_man',
     ];
+    protected $casts = [
+        'delivery_man' => 'array',
+    ];
 
     public function order(): BelongsTo
     {
