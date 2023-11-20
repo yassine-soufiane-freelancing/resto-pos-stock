@@ -23,6 +23,9 @@ class ItemVariation extends Model
     }
     public function orders(): BelongsToMany
     {
-        return $this->belongsToMany(Order::class);
+        return $this->belongsToMany(Order::class)->withPivot([
+            'item_quantity',
+            'item_note',
+        ]);
     }
 }

@@ -49,9 +49,9 @@ class User extends Authenticatable
         return $this->hasMany(CashMouvement::class);
     }
     function cash_registers() : HasMany {
-        return $this->hasMany(CashRegister::class);
+        return $this->hasMany(CashRegister::class, 'user_id');
     }
     function orders() : HasMany {
-        return $this->hasMany(Order::class);
+        return $this->hasMany(Order::class, 'user_id');
     }
 }

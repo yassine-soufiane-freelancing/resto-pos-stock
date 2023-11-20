@@ -24,7 +24,7 @@ class Order extends Model
 
     public function cashier(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
     public function client(): BelongsTo
     {
@@ -44,6 +44,9 @@ class Order extends Model
     }
     public function item_variations(): BelongsToMany
     {
-        return $this->belongsToMany(ItemVariation::class);
+        return $this->belongsToMany(ItemVariation::class)->withPivot([
+            'item_quantity',
+            'item_note',
+        ]);
     }
 }
