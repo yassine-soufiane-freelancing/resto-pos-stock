@@ -64,4 +64,6 @@ Route::middleware('auth:sanctum')->group(function () {
         'cashMouvements' => CashMouvementController::class,
         'cashRegisters' => CashRegisterController::class,
     ]);
+    // TESTING ROUTES
+    Route::get('postman-user', fn(Request $request) => $request->user()->load('roles'));
 });
