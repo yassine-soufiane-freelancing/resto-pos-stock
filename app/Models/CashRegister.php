@@ -13,6 +13,10 @@ class CashRegister extends Model
 
     protected $fillable = [
         'register_type',
+        'cash_units',
+    ];
+    protected $casts = [
+        'cash_units' => 'array',
     ];
 
     public function cashier(): BelongsTo
