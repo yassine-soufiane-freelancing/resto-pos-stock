@@ -18,6 +18,8 @@ class Order extends Model
         'is_paid',
         'payment_type',
         'order_note',
+        'order_discount',
+        'order_tip',
     ];
 
     public function cashier(): BelongsTo
