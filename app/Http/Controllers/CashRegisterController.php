@@ -39,18 +39,10 @@ class CashRegisterController extends Controller
         try {
             $cashRegister = new CashRegister($request->all());
             $cashRegister->cashier()->associate(Auth::user());
-            $cash_unit = new CashUnit($request->cash_units);
             if ($cashRegister->save()) {
-                $cash_unit->cash_register()->associate($cashRegister);
-                if ($cash_unit->save()) {
-                    $result = $cashRegister;
-                    $msg = __('success.add');
-                    $status = 200;
-                } else {
-                    $result = null;
-                    $msg = __('failure.add');
-                    $status = 500;
-                }
+                $result = $cashRegister;
+                $msg = __('success.add');
+                $status = 200;
             } else {
                 $result = null;
                 $msg = __('failure.add');
@@ -92,7 +84,7 @@ class CashRegisterController extends Controller
     public function update(CashRegisterRequest $request, CashRegister $cashRegister)
     {
         try {
-            if ($cashRegister->update($request->all()) && $cashRegister->cash_unit->update($request->cash_units)) {
+            if ($cashRegister->update($request->all())) {
                 $result = $cashRegister;
                 $msg = __('success.update');
                 $status = 200;
