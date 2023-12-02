@@ -19,5 +19,11 @@ class UserSeeder extends Seeder
             ->assignRole('cashier')
             ->createToken('postman_token')
             ->plainTextToken);
+
+        User::create([
+            'name' => 'Admin',
+            'email' => 'admin@gmail.com',
+            'password' => bcrypt('admin123')
+        ])->assignRole('admin');
     }
 }
