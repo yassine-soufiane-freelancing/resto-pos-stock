@@ -60,5 +60,11 @@ class SettingSeeder extends Seeder
                 ],
             ]
         );
+        Setting::create(
+            [
+                'setting_name' => 'default password',
+                'setting_value' => 'user123@',
+            ]
+        );
     }
 }
