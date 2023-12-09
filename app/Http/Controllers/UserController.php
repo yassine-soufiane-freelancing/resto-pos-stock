@@ -2,22 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CashRegisterRequest;
-use App\Models\CashRegister;
-use App\Models\CashUnit;
+use App\Http\Requests\UserRequest;
+use App\Models\Setting;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
-class CashRegisterController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $cash_registers = CashRegister::with('cashier')->get();
+        $users = User::when($request->role, function (Builder $query, string $role_value) {
+            $role = Role::where('id', $role_value)->orWhere('name', $role_value)->get();
+            if ($role) {
+                $query->role($role)->with('roles');
+            } elseif (Str::lower($role) == 'all') {
+                $query->with('roles');
+            }
+        })
+        ->get();
         return response()->json([
-            'result' => $cash_registers,
+            'result' => $users,
             'msg' => __('success'),
             'status' => 200,
         ]);
@@ -34,13 +45,20 @@ class CashRegisterController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CashRegisterRequest $request)
+    public function store(UserRequest $request)
     {
         try {
-            $cashRegister = new CashRegister($request->all());
-            $cashRegister->cashier()->associate(Auth::user());
-            if ($cashRegister->save()) {
-                $result = $cashRegister;
+            if ($setting_password_value = Setting::where('setting_name', 'default password')->value('setting_value')) {
+                $password = $setting_password_value;
+            } else {
+                $password = 'user123@';
+            }
+            $request->merge([
+                'password' => Hash::make($password),
+            ]);
+            $user = User::create($request->all());
+            if ($user && $user->assignRole($request->role)) {
+                $result = $user;
                 $msg = __('success.add');
                 $status = 200;
             } else {
@@ -61,10 +79,13 @@ class CashRegisterController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(CashRegister $cashRegister)
+    public function show(Request $request, User $user)
     {
+        $request->whenHas('role', function (string $role_value) use($user) {
+            $user->load('roles');
+        });
         return response()->json([
-            'result' => $cashRegister,
+            'result' => $user,
             'msg' => __('success'),
             'status' => 200,
         ]);
@@ -73,7 +94,7 @@ class CashRegisterController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CashRegister $cashRegister)
+    public function edit(User $user)
     {
         //
     }
@@ -81,11 +102,16 @@ class CashRegisterController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(CashRegisterRequest $request, CashRegister $cashRegister)
+    public function update(UserRequest $request, User $user)
     {
         try {
-            if ($cashRegister->update($request->all())) {
-                $result = $cashRegister;
+            $request->whenFilled('password', function (string $password) use(&$request) {
+                $request->merge([
+                    'password' => Hash::make($password),
+                ]);
+            });
+            if ($user->update($request->all()) && $user->syncRoles($request->role)) {
+                $result = $user;
                 $msg = __('success.update');
                 $status = 200;
             } else {
@@ -106,11 +132,11 @@ class CashRegisterController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CashRegister $cashRegister)
+    public function destroy(User $user)
     {
         try {
-            if ($cashRegister->delete()) {
-                $result = $cashRegister;
+            if ($user->delete()) {
+                $result = $user;
                 $msg = __('success.delete');
                 $status = 200;
             } else {

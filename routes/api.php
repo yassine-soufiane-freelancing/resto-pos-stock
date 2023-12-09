@@ -9,6 +9,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TableController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -58,6 +59,7 @@ Route::middleware('auth:sanctum')->group(function () {
     // DEFINE RESOURCES CONTROLLERS
     Route::resources([
         'clients' => ClientController::class,
+        'users' => UserController::class,
         'menus' => MenuController::class,
         'items' => ItemController::class,
         'tables' => TableController::class,
