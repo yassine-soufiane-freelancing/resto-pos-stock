@@ -11,8 +11,12 @@ use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\UserController;
+use App\Models\CashRegister;
+use Illuminate\Contracts\Auth\StatefulGuard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Laravel\Fortify\Contracts\LogoutResponse;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +60,35 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('reel', [DashboardController::class, 'total_reel'])->name('reel');
         });
         Route::get('tip', [DashboardController::class, 'tip']);
+    });
+    // TODO: create AuthenticatedSessionController controller to override the used package
+    Route::post('logout', function (Request $request, StatefulGuard $guard) {
+        $total_gain = Auth::user()
+            ->cash_registers()
+            ->where('register_type', 'out')
+            ->get()
+            ->sum(function (CashRegister $cashRegister) {
+                return collect($cashRegister->cash_units)->reduce(function (?int $carry, int $value, string $key) {
+                    return $carry + ($value * floatval(config('cash_units.' . $key)));
+                });
+            });
+        -
+            Auth::user()
+            ->cash_registers()
+            ->where('register_type', 'in')
+            ->get()
+            ->sum(function (CashRegister $cashRegister) {
+                return collect($cashRegister->cash_units)->reduce(function (?int $carry, int $value, string $key) {
+                    return $carry + ($value * floatval(config('cash_units.' . $key)));
+                });
+            });
+        $request->merge([
+            'total_gain' => $total_gain,
+        ]);
+        $guard->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return app(LogoutResponse::class);
     });
     // DEFINE RESOURCES CONTROLLERS
     Route::resources([
