@@ -15,7 +15,7 @@ class CashRegisterController extends Controller
      */
     public function index()
     {
-        $cash_registers = CashRegister::all();
+        $cash_registers = CashRegister::with('cashier')->get();
         return response()->json([
             'result' => $cash_registers,
             'msg' => __('success'),

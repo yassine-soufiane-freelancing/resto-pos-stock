@@ -20,6 +20,6 @@ class CashMouvement extends Model
 
     public function cashier(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }
