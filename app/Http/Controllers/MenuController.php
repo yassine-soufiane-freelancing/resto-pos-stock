@@ -13,10 +13,7 @@ class MenuController extends Controller
      */
     public function index(Request $request)
     {
-        $perPage = $request->input('per_page', 10);
-
-        $menus = Menu::paginate($perPage);
-
+        $menus = Menu::all();
         return response()->json([
             'result' => $menus,
             'msg' => __('success'),
@@ -75,7 +72,7 @@ class MenuController extends Controller
      */
     public function show(Menu $menu)
     {
-        response()->json([
+        return response()->json([
             'result' => $menu,
             'msg' => __('success'),
             'status' => 200,
@@ -93,7 +90,7 @@ class MenuController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(MenuController $request, Menu $menu)
+    public function update(MenuRequest $request, Menu $menu)
     {
         try {
             $request->whenHas('image_url', function ($imageInp) use (&$request) {

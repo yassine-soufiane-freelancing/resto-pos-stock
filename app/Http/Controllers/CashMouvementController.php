@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\cashMouvement;
+use App\Http\Requests\CashMouvementRequest;
+use App\Models\CashMouvement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CashMouvementController extends Controller
 {
@@ -12,8 +14,8 @@ class CashMouvementController extends Controller
      */
     public function index()
     {
-        $cash_mouvements = cashMouvement::all();
-        response()->json([
+        $cash_mouvements = CashMouvement::all();
+        return response()->json([
             'result' => $cash_mouvements,
             'msg' => __('success'),
             'status' => 200,
@@ -31,7 +33,7 @@ class CashMouvementController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CashMouvementRequest $request)
     {
         try {
             $request->whenHas('image_url', function ($imageInp) use (&$request) {
@@ -39,8 +41,9 @@ class CashMouvementController extends Controller
                     'image_url' => 'storage/' . $imageInp->store('images_urls'),
                 ]);
             });
-            $cashMouvement = cashMouvement::create($request->all());
-            if ($cashMouvement) {
+            $cashMouvement = new CashMouvement($request->all());
+            $cashMouvement->cashier()->associate(Auth::user());
+            if ($cashMouvement->save()) {
                 $result = $cashMouvement;
                 $msg = __('success.add');
                 $status = 200;
@@ -62,9 +65,9 @@ class CashMouvementController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(cashMouvement $cashMouvement)
+    public function show(CashMouvement $cashMouvement)
     {
-        response()->json([
+        return response()->json([
             'result' => $cashMouvement,
             'msg' => __('success'),
             'status' => 200,
@@ -74,7 +77,7 @@ class CashMouvementController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(cashMouvement $cashMouvement)
+    public function edit(CashMouvement $cashMouvement)
     {
         //
     }
@@ -82,7 +85,7 @@ class CashMouvementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, cashMouvement $cashMouvement)
+    public function update(CashMouvementRequest $request, CashMouvement $cashMouvement)
     {
         try {
             $request->whenHas('image_url', function ($imageInp) use (&$request) {
@@ -112,7 +115,7 @@ class CashMouvementController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(cashMouvement $cashMouvement)
+    public function destroy(CashMouvement $cashMouvement)
     {
         try {
             if ($cashMouvement->delete()) {

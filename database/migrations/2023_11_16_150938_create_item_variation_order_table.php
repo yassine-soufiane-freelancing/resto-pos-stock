@@ -11,17 +11,25 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('role_user', function (Blueprint $table) {
+        Schema::create('item_variation_order', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('role_id')
+            $table->integer('item_quantity');
+            $table->integer('item_note')
+                ->nullable();
+            $table->foreignId('cashier_id')
+                ->constrained('users')
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
+            $table->foreignId('item_variation_id')
                 ->constrained()
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreignId('user_id')
+            $table->foreignId('order_id')
                 ->constrained()
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -30,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('role_user');
+        Schema::dropIfExists('item_variation_order');
     }
 };

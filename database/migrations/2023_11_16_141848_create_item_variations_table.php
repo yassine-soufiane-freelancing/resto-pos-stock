@@ -11,18 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('item_menu', function (Blueprint $table) {
+        Schema::create('item_variations', function (Blueprint $table) {
             $table->id();
-            $table->float('item_price');
+            $table->string('item_size');
+            $table->string('item_price');
             $table->foreignId('item_id')
                 ->constrained()
                 ->restrictOnDelete()
                 ->cascadeOnUpdate();
-            $table->foreignId('menu_id')
-                ->constrained()
-                ->restrictOnDelete()
-                ->cascadeOnUpdate();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('item_menu');
+        Schema::dropIfExists('item_variations');
     }
 };

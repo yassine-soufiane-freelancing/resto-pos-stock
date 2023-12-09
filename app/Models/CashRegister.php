@@ -7,19 +7,20 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class cashMouvement extends Model
+class CashRegister extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, softDeletes;
 
     protected $fillable = [
-        'amount',
-        'mouvement_type',
-        'mouvement_description',
-        'image_url',
+        'register_type',
+        'cash_units',
+    ];
+    protected $casts = [
+        'cash_units' => 'array',
     ];
 
-    public function orders(): BelongsTo
+    public function cashier(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
     }
 }

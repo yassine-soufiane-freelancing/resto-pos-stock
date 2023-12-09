@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('roles', function (Blueprint $table) {
-            $table->id();
-            $table->string('role_name');
-            $table->timestamps();
+        Schema::table('orders', function (Blueprint $table) {
+            $table->float('order_tip')
+                ->default(0)
+                ->after('order_discount');
         });
     }
 
@@ -23,6 +23,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('roles');
+        Schema::table('orders', function (Blueprint $table) {
+            $table->dropColumn([
+                'order_tip',
+            ]);
+        });
     }
 };

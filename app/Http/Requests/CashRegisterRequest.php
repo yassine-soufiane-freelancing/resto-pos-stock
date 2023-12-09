@@ -3,10 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 
-class cashMouvementRequest extends FormRequest
+class CashRegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,20 +22,13 @@ class cashMouvementRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'amount' => [
+            'register_type' => [
                 'required',
-                'numeric',
-                'min:1',
+                'string',
             ],
-            'mouvement_type' => [
+            'cash_units' => [
                 'required',
-            ],
-            'mouvement_description' => [
-                'required',
-            ],
-            'image_url' => [
-                'sometimes',
-                'image',
+                'array:half,one,two,five,ten,twenty,fifty,hundred,two_hundred',
             ],
         ];
         return $rules;

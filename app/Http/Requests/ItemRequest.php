@@ -37,9 +37,21 @@ class ItemRequest extends FormRequest
                 'string',
             ],
             'menu' => [
-                'sometimes',
+                'required',
                 'integer',
                 'exists:menus,id',
+            ],
+            'item_variations' => [
+                'sometimes',
+                'array',
+            ],
+            'item_variations.*.item_size' => [
+                'required_with:item_variations',
+                'string',
+            ],
+            'item_variations.*.item_price' => [
+                'required_with:item_variations',
+                'numeric',
             ],
         ];
         if ($this->method() == Request::METHOD_PUT) {

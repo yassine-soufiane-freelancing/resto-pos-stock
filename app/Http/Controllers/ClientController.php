@@ -14,7 +14,7 @@ class ClientController extends Controller
     public function index()
     {
         $clients = Client::all();
-        response()->json([
+        return response()->json([
             'result' => $clients,
             'msg' => __('success'),
             'status' => 200,
@@ -60,7 +60,7 @@ class ClientController extends Controller
      */
     public function show(Client $client)
     {
-        response()->json([
+        return response()->json([
             'result' => $client,
             'msg' => __('success'),
             'status' => 200,

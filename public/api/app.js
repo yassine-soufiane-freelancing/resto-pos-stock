@@ -1,5 +1,6 @@
 // Variables Declarations
 var baseUrl = `${location.protocol}//${location.host}/`;
+var apiEndpoint = `api/`;
 // GET a SUNCTUM CSRF
 $(document).ready(function () {
   axios

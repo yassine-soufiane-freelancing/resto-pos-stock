@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -45,6 +46,12 @@ class User extends Authenticatable
     ];
 
     function cash_mouvements() : HasMany {
-        return $this->hasMany(cashMouvement::class);
+        return $this->hasMany(CashMouvement::class);
+    }
+    function cash_registers() : HasMany {
+        return $this->hasMany(CashRegister::class, 'user_id');
+    }
+    function orders() : HasMany {
+        return $this->hasMany(Order::class, 'user_id');
     }
 }

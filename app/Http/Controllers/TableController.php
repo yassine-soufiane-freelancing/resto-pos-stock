@@ -14,7 +14,7 @@ class TableController extends Controller
     public function index()
     {
         $tables = Table::all();
-        response()->json([
+        return response()->json([
             'result' => $tables,
             'msg' => __('success'),
             'status' => 200,
@@ -60,7 +60,7 @@ class TableController extends Controller
      */
     public function show(Table $table)
     {
-        response()->json([
+        return response()->json([
             'result' => $table,
             'msg' => __('success'),
             'status' => 200,
