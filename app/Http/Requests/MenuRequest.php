@@ -38,7 +38,7 @@ class MenuRequest extends FormRequest
                 'image',
             ],
         ];
-        if ($this->method() == Request::METHOD_PUT) {
+        if ($this->method() == Request::METHOD_POST && $this->route()->hasParameter('menu')) {
             $rules['menu_name'][1] = Rule::unique('menus')->ignore($this->route()->parameter('menu'));
         }
         return $rules;
