@@ -40,6 +40,7 @@ class MenuRequest extends FormRequest
         ];
         if ($this->method() == Request::METHOD_POST && $this->route()->hasParameter('menu')) {
             $rules['menu_name'][1] = Rule::unique('menus')->ignore($this->route()->parameter('menu'));
+            $rules['slug'][1] = Rule::unique('menus')->ignore($this->route()->parameter('menu'));
         }
         return $rules;
     }
