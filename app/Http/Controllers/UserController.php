@@ -26,6 +26,7 @@ class UserController extends Controller
                 $query->with('roles');
             }
         })
+        ->with('roles')
         ->get();
         return response()->json([
             'result' => $users,
@@ -48,10 +49,10 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         try {
-            if ($setting_password_value = Setting::where('setting_name', 'default password')->value('setting_value')) {
-                $password = $setting_password_value;
+            if ($request->password) {
+                $password = $request->password;
             } else {
-                $password = 'user123@';
+                $password = Setting::where('setting_name', 'default password')->value('setting_value') || 'user@123';
             }
             $request->merge([
                 'password' => Hash::make($password),
@@ -111,7 +112,7 @@ class UserController extends Controller
                 ]);
             });
             if ($user->update($request->all()) && $user->syncRoles($request->role)) {
-                $result = $user;
+                $result = $user->load('roles');
                 $msg = __('success.update');
                 $status = 200;
             } else {

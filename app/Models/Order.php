@@ -22,6 +22,9 @@ class Order extends Model
         'order_tip',
     ];
 
+    protected $appends = [ 'by' ];
+    protected $hidden  = ['cashier']; // so it does not return when calling 'by' attribute
+
     public function cashier(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_id');
@@ -48,5 +51,9 @@ class Order extends Model
             'item_quantity',
             'item_note',
         ]);
+    }
+
+    public function getByAttribute() {
+        return $this->cashier ? $this->cashier->name : null;
     }
 }
