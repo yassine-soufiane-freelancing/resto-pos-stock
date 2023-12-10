@@ -112,7 +112,7 @@ class UserController extends Controller
                 ]);
             });
             if ($user->update($request->all()) && $user->syncRoles($request->role)) {
-                $result = $user;
+                $result = $user->load('roles');
                 $msg = __('success.update');
                 $status = 200;
             } else {

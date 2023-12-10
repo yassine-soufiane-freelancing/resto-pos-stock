@@ -52,6 +52,7 @@ class UserRequest extends FormRequest
                 'min:8',
                 'max:16',
             ];
+            $rules['role'] = [];
         }
         return $rules;
     }

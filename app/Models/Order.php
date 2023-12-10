@@ -54,6 +54,6 @@ class Order extends Model
     }
 
     public function getByAttribute() {
-        return $this->cashier->name;
+        return $this->cashier ? $this->cashier->name : null;
     }
 }
