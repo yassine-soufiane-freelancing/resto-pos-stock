@@ -90,6 +90,8 @@ Route::middleware('auth:sanctum')->group(function () {
         $request->session()->regenerateToken();
         return app(LogoutResponse::class);
     });
+    Route::post('menus/{menu}', [MenuController::class, 'update'])->name('menus.update.upload');
+    Route::post('cashMouvements/{cashMouvement}', [CashMouvementController::class, 'update'])->name('cashMouvements.update..upload');
     // DEFINE RESOURCES CONTROLLERS
     Route::resources([
         'clients' => ClientController::class,
