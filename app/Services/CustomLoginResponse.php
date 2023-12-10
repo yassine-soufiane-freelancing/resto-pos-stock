@@ -8,7 +8,7 @@ use Laravel\Fortify\Contracts\LoginResponse;
 class CustomLoginResponse implements LoginResponse
 {
     public function toResponse($request) {
-        $result = Auth::user();
+        $result = Auth::user()->load('roles');
         $msg = __('success.auth');
         $status = 200;
         return response()->json([
