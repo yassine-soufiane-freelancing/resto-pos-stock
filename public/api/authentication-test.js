@@ -39,7 +39,7 @@ const login = () => {
     });
 }
 const logout = () => {
-    addData('logout', {}, (data) => {
+    addData(`${apiEndpoint}logout`, {}, (data) => {
         console.log(data);
     });
 }

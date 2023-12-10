@@ -2,14 +2,15 @@
 
 namespace App\Service;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Contracts\LogoutResponse;
 
-class CustomLoginResponse implements LoginResponse
+class CustomLogoutResponse implements LogoutResponse
 {
     public function toResponse($request) {
-        $result = Auth::user()->load('roles');
-        $msg = __('success.auth');
+        $result = $request->total_gain;
+        $msg = __('success.logout');
         $status = 200;
         return response()->json([
             'result' => $result,

@@ -14,9 +14,11 @@ use App\Actions\Fortify\ResetUserPassword;
 use App\Actions\Fortify\UpdateUserPassword;
 use App\Actions\Fortify\UpdateUserProfileInformation;
 use App\Service\CustomLoginResponse;
+use App\Service\CustomLogoutResponse;
 use App\Service\CustomRegisterResponse;
 use Illuminate\Support\Facades\RateLimiter;
 use Laravel\Fortify\Contracts\LoginResponse;
+use Laravel\Fortify\Contracts\LogoutResponse;
 use Laravel\Fortify\Contracts\RegisterResponse;
 
 class FortifyServiceProvider extends ServiceProvider
@@ -29,6 +31,7 @@ class FortifyServiceProvider extends ServiceProvider
     public $bindings = [
         LoginResponse::class => CustomLoginResponse::class,
         RegisterResponse::class => CustomRegisterResponse::class,
+        LogoutResponse::class => CustomLogoutResponse::class,
     ];
 
     /**
