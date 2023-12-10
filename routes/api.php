@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\UserController;
@@ -67,6 +68,7 @@ Route::middleware('auth:sanctum')->group(function () {
         'cashMouvements' => CashMouvementController::class,
         'cashRegisters' => CashRegisterController::class,
         'settings' => SettingController::class,
+        'roles' => RoleController::class,
     ]);
     // TESTING ROUTES
     Route::get('postman-user', fn(Request $request) => $request->user()->load('roles'));
